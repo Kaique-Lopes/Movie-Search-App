@@ -28,6 +28,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate
     // MARK: - Fields - Pesquisar Filmes
     func searchMovies() {
         field.resignFirstResponder()
+        
+        guard let text = field.text, !text.isEmpty else {
+            return
+        }
+        
+        URLSession.shared.dataTask(with: URL(string: "https://www.omdbapi.com/?i=tt3896198&apikey=30121f75&s=fast&type=movie")!,
+                                   completionHandler: { data, response, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            
+        }).resume()
     }
     
     // MARK: - Table numberOfRows
@@ -44,7 +56,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
-struct Movie {
+struct MovieResult: Codable {
+    let search: [Movie]
+}
+struct Movie: Codable {
     
+    let Title: String
+    let Year: String
+    let imdbID: String
+    let _Type: String
+    let Poster: String
+     
+    private enum CodingKeys: String, CodingKey {
+        case Title, Year, imdbID, _Type = "Type", Poster
+    }
 }
