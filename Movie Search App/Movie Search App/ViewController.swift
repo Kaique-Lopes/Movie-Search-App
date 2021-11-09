@@ -39,6 +39,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate
                 return
             }
             
+            //Convert
+            var result: MovieResult?
+            do {
+                result = try JSONDecoder().decode(MovieResult.self, from: data)
+            } catch {
+                
+            }
+            //Update our movies array
+            
+            //Refresh our table
+            
+            
+            
         }).resume()
     }
     
@@ -56,6 +69,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+ // MARK: - Estrutura do Json
 struct MovieResult: Codable {
     let search: [Movie]
 }
@@ -68,6 +82,6 @@ struct Movie: Codable {
     let Poster: String
      
     private enum CodingKeys: String, CodingKey {
-        case Title, Year, imdbID, _Type = "Type", Poster
+        case Title, Year, imdbID, _Type = "Type ", Poster
     }
 }
