@@ -32,7 +32,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate
         guard let text = field.text, !text.isEmpty else {
             return
         }
-        
+        //let query = text.replacingOccurrences(of: " ", with: "%20")
+        movies.removeAll()
         URLSession.shared.dataTask(with: URL(string: "https://www.omdbapi.com/?i=tt3896198&apikey=30121f75&s=fast&type=movie")!,
                                    completionHandler: { data, response, error in
             guard let data = data, error == nil else {
@@ -46,10 +47,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate
             } catch {
                 
             }
+            
+            guard let finalResult = result else {
+                return
+            }
+            
+            //print("\(finalResult.search.first?.Title)")
             //Update our movies array
-            
+            let newMoviews = finalResult.search
+            self.movies.append(contentsOf: newMoviews)
             //Refresh our table
-            
+            DispatchQueue.main.async {
+                self.table.reloadData()
+            }
             
             
         }).resume()
