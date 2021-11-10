@@ -10,7 +10,7 @@ import UIKit
 class MovieTableViewCell: UITableViewCell {
     @IBOutlet var movieTitleLabel: UILabel!
     @IBOutlet var movieYearLabel: UILabel!
-    @IBOutlet var moviePosterLabel: UILabel!
+    @IBOutlet var moviePosterImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,6 +34,6 @@ class MovieTableViewCell: UITableViewCell {
         self.movieYearLabel.text = model.Year
         let url = model.Poster
         let data = try! Data(contentsOf: URL(string: url)!)
-        self.
+        self.moviePosterImageView.image = UIImage(data: data)
     }
 }
